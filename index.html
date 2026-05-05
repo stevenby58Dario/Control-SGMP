@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SGMP · Control de Asignaciones</title>
+<!-- Archivo listo para publicar como index.html en GitHub Pages. -->
+<style>
+:root{
+  --cyan:#bfeeea; --cyan2:#dff8f5; --cyan3:#8fdad4;
+  --beige:#f2e7d5; --beige2:#fbf6ed; --beige3:#dec9a7;
+  --black:#111111; --white:#ffffff; --line:#e7e0d3; --muted:#6f6a62;
+  --red:#c94b4b; --green:#48a36d; --amber:#c89032; --shadow:0 18px 45px rgba(17,17,17,.08);
+  --radius:22px;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,var(--beige2),var(--cyan2));color:var(--black);min-height:100vh} button,input,select,textarea{font:inherit}.hidden{display:none!important}
+.login{min-height:100vh;display:grid;place-items:center;padding:24px}.login-card{width:min(440px,100%);background:rgba(255,255,255,.85);border:1px solid var(--line);border-radius:28px;padding:30px;box-shadow:var(--shadow)}.brandmark{width:54px;height:54px;border-radius:16px;background:var(--black);color:var(--cyan);display:grid;place-items:center;font-weight:900;margin-bottom:14px}.login h1{margin:0;font-size:26px;letter-spacing:-.04em}.sub{color:var(--muted);font-size:13px;line-height:1.5;margin:8px 0 20px}.field{display:grid;gap:6px;margin-bottom:12px}.field label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800}.field input,.field textarea,.field select{width:100%;border:1px solid var(--line);background:var(--white);border-radius:14px;padding:12px 14px;outline:none}.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--cyan3);box-shadow:0 0 0 4px rgba(143,218,212,.22)}.btn{border:0;border-radius:14px;padding:11px 15px;font-weight:800;cursor:pointer}.btn.primary{background:var(--black);color:var(--white)}.btn.soft{background:var(--cyan2);color:var(--black);border:1px solid var(--cyan3)}.btn.beige{background:var(--beige);border:1px solid var(--beige3)}.btn.danger{background:#fff0f0;color:var(--red);border:1px solid #efb8b8}.btn:disabled{opacity:.5;cursor:not-allowed}.error{background:#fff1f1;color:#9b2424;border:1px solid #efb8b8;border-radius:12px;padding:10px 12px;font-size:13px;margin-top:12px;display:none}.error.show{display:block}
+.app{display:grid;grid-template-columns:270px 1fr;min-height:100vh}.sidebar{background:var(--black);color:#fff;padding:22px;position:sticky;top:0;height:100vh}.side-brand{display:flex;gap:12px;align-items:center;margin-bottom:22px}.side-logo{width:44px;height:44px;border-radius:14px;background:var(--cyan);color:var(--black);display:grid;place-items:center;font-weight:900}.side-brand h2{font-size:17px;margin:0}.side-brand small{color:rgba(255,255,255,.55)}.nav{display:grid;gap:8px}.nav button{background:transparent;border:1px solid transparent;color:rgba(255,255,255,.72);border-radius:14px;padding:12px;text-align:left;cursor:pointer;font-weight:700}.nav button:hover,.nav button.active{background:rgba(191,238,234,.14);border-color:rgba(191,238,234,.18);color:#fff}.session{position:absolute;bottom:20px;left:22px;right:22px;border-top:1px solid rgba(255,255,255,.12);padding-top:16px}.session strong{display:block}.session span{font-size:12px;color:rgba(255,255,255,.58)}
+.main{padding:24px;min-width:0}.topbar{background:rgba(255,255,255,.78);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:28px;padding:22px 24px;box-shadow:var(--shadow);display:flex;justify-content:space-between;align-items:center;gap:14px}.topbar h1{margin:0;font-size:26px;letter-spacing:-.04em}.topbar p{margin:6px 0 0;color:var(--muted);font-size:13px}.toolbar{display:flex;gap:8px;flex-wrap:wrap}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:18px 0}.kpi{background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 8px 28px rgba(17,17,17,.04)}.kpi .v{font-size:30px;font-weight:900}.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin-top:4px}.panel{background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:26px;padding:20px;box-shadow:var(--shadow);margin-top:18px}.panel h3{margin:0 0 6px}.filters{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr auto;gap:10px;margin-top:16px}.kanban{display:grid;grid-template-columns:repeat(5,minmax(240px,1fr));gap:14px;overflow:auto;padding-bottom:10px}.col{background:rgba(255,255,255,.65);border:1px solid var(--line);border-radius:22px;min-height:430px;padding:12px}.col-head{display:flex;justify-content:space-between;align-items:center;padding:8px 8px 12px}.col-title{font-weight:900}.count{background:var(--beige);border:1px solid var(--beige3);border-radius:99px;padding:4px 9px;font-size:12px;font-weight:900}.task{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:10px;box-shadow:0 8px 18px rgba(17,17,17,.05);cursor:grab}.task:hover{border-color:var(--cyan3)}.task.dragging{opacity:.4}.task h4{margin:0 0 6px;font-size:14px}.tagrow{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0}.pill{display:inline-flex;padding:4px 8px;border-radius:99px;font-size:11px;font-weight:800}.pill.cyan{background:var(--cyan2);color:#16645e}.pill.beige{background:var(--beige2);color:#6b4c16;border:1px solid var(--beige3)}.pill.red{background:#fff0f0;color:#b52d2d}.meta{font-size:12px;color:var(--muted);line-height:1.45}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:#fff}table{width:100%;border-collapse:collapse;min-width:900px}th,td{padding:11px 12px;border-bottom:1px solid #f0ece4;text-align:left;font-size:13px;vertical-align:top}th{background:var(--beige2);font-size:11px;text-transform:uppercase;letter-spacing:.06em}.modal{position:fixed;inset:0;background:rgba(0,0,0,.38);display:grid;place-items:center;padding:22px;z-index:99}.modal-box{width:min(760px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:28px;padding:24px;box-shadow:0 30px 80px rgba(0,0,0,.25)}.modal-head{display:flex;justify-content:space-between;align-items:start;gap:14px;margin-bottom:14px}.modal h2{margin:0}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-height:180px;overflow:auto;border:1px solid var(--line);border-radius:16px;padding:12px;background:var(--beige2)}.check{display:flex;gap:8px;align-items:center;font-size:13px}.screen{display:none}.screen.active{display:block}.empty{padding:26px;text-align:center;color:var(--muted)}
+.status-Pendiente{border-left:5px solid var(--beige3)}.status-En-proceso{border-left:5px solid var(--cyan3)}.status-En-revision{border-left:5px solid #111}.status-Bloqueada{border-left:5px solid var(--red)}.status-Finalizada{border-left:5px solid var(--green)}
+@media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{position:static;height:auto}.session{position:static}.filters,.kpis,.cards,.grid2{grid-template-columns:1fr}.kanban{grid-template-columns:repeat(5,260px)}}
+</style>
+</head>
+<body>
+<div id="login" class="login">
+  <div class="login-card">
+    <div class="brandmark">SG</div>
+    <h1>SGMP Control</h1>
+    <p class="sub">Ingreso al tablero de asignaciones, tareas, responsables e historial. La información se carga desde Google Sheets mediante Apps Script.</p>
+    <div class="field"><label>Correo</label><input id="loginCorreo" value="steven@asiservy.local"></div>
+    <div class="field"><label>Clave</label><input id="loginClave" type="password" value="admin123"></div>
+    <button class="btn primary" onclick="login()">Entrar</button>
+    <div id="loginError" class="error"></div>
+    <p class="sub">Demo inicial: admin <b>steven@asiservy.local / admin123</b>. Usuarios importados: clave <b>1234</b>.</p>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+  <aside class="sidebar">
+    <div class="side-brand"><div class="side-logo">SG</div><div><h2>SGMP Control</h2><small>Asignaciones · Kanban · Historial</small></div></div>
+    <nav class="nav">
+      <button class="active" data-screen="dashboard" onclick="showScreen('dashboard',this)">Dashboard</button>
+      <button data-screen="kanban" onclick="showScreen('kanban',this)">Kanban</button>
+      <button data-screen="assignments" onclick="showScreen('assignments',this)">Asignaciones</button>
+      <button data-screen="history" onclick="showScreen('history',this)">Historial</button>
+      <button data-screen="users" onclick="showScreen('users',this)">Usuarios</button>
+    </nav>
+    <div class="session"><strong id="sessionName">-</strong><span id="sessionRole">-</span><br><br><button class="btn beige" onclick="logout()">Salir</button></div>
+  </aside>
+  <main class="main">
+    <section class="topbar"><div><h1 id="pageTitle">Dashboard</h1><p id="pageSub">Vista ejecutiva del estado de asignaciones y tareas.</p></div><div class="toolbar"><button class="btn soft" onclick="sync()">Actualizar</button><button class="btn primary" onclick="openTaskModal()">Nueva tarea</button><button class="btn beige" onclick="openAssignmentModal()">Nueva asignación</button></div></section>
+
+    <section id="screen-dashboard" class="screen active">
+      <div class="kpis"><div class="kpi"><div class="v" id="kpiTotal">0</div><div class="l">Tareas activas</div></div><div class="kpi"><div class="v" id="kpiLate">0</div><div class="l">Atrasadas</div></div><div class="kpi"><div class="v" id="kpiDone">0</div><div class="l">Finalizadas</div></div><div class="kpi"><div class="v" id="kpiAssign">0</div><div class="l">Asignaciones</div></div></div>
+      <div class="cards"><div class="card"><h3>Estado global</h3><div id="statusSummary" class="meta"></div></div><div class="card"><h3>Carga por persona</h3><div id="userSummary" class="meta"></div></div><div class="card"><h3>Alertas</h3><div id="alerts" class="meta"></div></div></div>
+    </section>
+
+    <section id="screen-kanban" class="screen">
+      <div class="panel"><h3>Kanban de actividades</h3><p class="sub">Arrastra una tarjeta entre columnas para cambiar el estado. Usa filtros por asignación, responsable, estado o texto.</p><div class="filters"><input id="fText" placeholder="Buscar tarea o asignación" oninput="renderKanban()"><select id="fUser" onchange="renderKanban()"></select><select id="fAssignment" onchange="renderKanban()"></select><select id="fPriority" onchange="renderKanban()"><option value="">Todas las prioridades</option><option>Alta</option><option>Media</option><option>Baja</option></select><button class="btn beige" onclick="clearFilters()">Limpiar</button></div></div>
+      <div id="kanbanBoard" class="kanban panel"></div>
+    </section>
+
+    <section id="screen-assignments" class="screen"><div class="panel"><h3>Asignaciones</h3><p class="sub">Una asignación tiene un solo dueño. Las tareas asociadas pueden tener varios responsables.</p><div class="tablewrap"><table id="assignmentsTable"></table></div></div></section>
+    <section id="screen-history" class="screen"><div class="panel"><h3>Historial de cambios</h3><p class="sub">Auditoría de creación, edición, cambio de fecha, movimiento Kanban y eliminación lógica.</p><div class="tablewrap"><table id="historyTable"></table></div></div></section>
+    <section id="screen-users" class="screen"><div class="panel"><h3>Usuarios</h3><p class="sub">Usuarios cargados desde Google Sheets. Solo admin debería crear o modificar usuarios.</p><div class="toolbar"><button class="btn soft" onclick="openUserModal()">Nuevo usuario</button></div><div class="tablewrap"><table id="usersTable"></table></div></div></section>
+  </main>
+</div>
+
+<div id="modal" class="modal hidden"><div class="modal-box"><div class="modal-head"><div><h2 id="modalTitle">Modal</h2><p id="modalSub" class="sub"></p></div><button class="btn beige" onclick="closeModal()">Cerrar</button></div><div id="modalBody"></div></div></div>
+
+<script>
+const API_URL = 'PEGAR_AQUI_URL_WEB_APP_EXEC';
+const KANBAN_COLUMNS = ['Pendiente','En proceso','En revisión','Bloqueada','Finalizada'];
+let state = { user:null, users:[], assignments:[], tasks:[], catalogs:[], dashboard:{}, history:[] };
+
+async function api(action,payload={}){
+  if(!API_URL || API_URL.includes('PEGAR_AQUI')) throw new Error('Configura API_URL con la URL /exec del Apps Script.');
+  const res = await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,payload})});
+  const json = await res.json();
+  if(!json.ok) throw new Error(json.error || 'Error Apps Script');
+  return json.data;
+}
+async function login(){
+  const box=document.getElementById('loginError'); box.classList.remove('show');
+  try{ const data=await api('login',{correo:val('loginCorreo'),clave:val('loginClave')}); state.user=data.user; localStorage.setItem('sgmp_user_id',state.user.user_id); await sync(); document.getElementById('login').classList.add('hidden'); document.getElementById('app').classList.remove('hidden'); }
+  catch(e){ box.textContent=e.message; box.classList.add('show'); }
+}
+async function sync(){
+  try{ const userId = state.user?.user_id || localStorage.getItem('sgmp_user_id'); if(!userId) return; const data=await api('bootstrap',{user_id:userId}); state={...state,...data}; renderAll(); }
+  catch(e){ alert(e.message); }
+}
+function logout(){localStorage.removeItem('sgmp_user_id'); location.reload();}
+function val(id){return document.getElementById(id).value.trim();}
+function userName(id){return (state.users.find(u=>String(u.user_id)===String(id))||{}).nombre||id;}
+function assignmentName(id){return (state.assignments.find(a=>String(a.assignment_id)===String(id))||{}).titulo||id;}
+function isAdmin(){return String(state.user?.rol).toLowerCase()==='admin';}
+function isActiveUser(u){return ['activo','activa','active'].includes(String(u.estado||'').trim().toLowerCase());}
+function renderAll(){
+  document.getElementById('sessionName').textContent=state.user.nombre; document.getElementById('sessionRole').textContent=state.user.rol + ' · ' + (state.user.cargo||'');
+  document.querySelector('[data-screen="users"]')?.classList.toggle('hidden', !isAdmin());
+  renderDashboard(); renderFilters(); renderKanban(); renderAssignments(); renderUsers(); renderHistoryTable();
+}
+function renderDashboard(){
+  const d=state.dashboard||{}; setText('kpiTotal',d.total_tasks||0); setText('kpiLate',d.delayed_tasks||0); setText('kpiDone',d.completed_tasks||0); setText('kpiAssign',d.active_assignments||0);
+  document.getElementById('statusSummary').innerHTML = Object.entries(d.by_status||{}).map(([k,v])=>`<p><b>${k}:</b> ${v}</p>`).join('') || 'Sin datos.';
+  document.getElementById('userSummary').innerHTML = Object.entries(d.by_user||{}).map(([k,v])=>`<p><b>${userName(k)}:</b> ${v} tareas</p>`).join('') || 'Sin datos.';
+  document.getElementById('alerts').innerHTML = (d.delayed_tasks>0?`<p><span class="pill red">${d.delayed_tasks} tareas atrasadas</span></p>`:'<p><span class="pill cyan">Sin atrasos críticos</span></p>') + '<p>Revisar cambios de fecha desde Historial.</p>';
+}
+function setText(id,t){document.getElementById(id).textContent=t;}
+function renderFilters(){
+  document.getElementById('fUser').innerHTML='<option value="">Todos los responsables</option>'+state.users.map(u=>`<option value="${u.user_id}">${u.nombre}</option>`).join('');
+  document.getElementById('fAssignment').innerHTML='<option value="">Todas las asignaciones</option>'+state.assignments.map(a=>`<option value="${a.assignment_id}">${a.titulo}</option>`).join('');
+}
+function filteredTasks(){
+  const q=val('fText').toLowerCase(), fu=val('fUser'), fa=val('fAssignment'), fp=val('fPriority');
+  return state.tasks.filter(t=>{
+    const text=(t.titulo+' '+t.assignment_title).toLowerCase();
+    const hasUser=!fu || (t.responsables||[]).some(r=>String(r.user_id)===fu);
+    return (!q || text.includes(q)) && (!fa || String(t.assignment_id)===fa) && (!fp || String(t.prioridad)===fp) && hasUser;
+  });
+}
+function renderKanban(){
+  const board=document.getElementById('kanbanBoard'); if(!board) return; const tasks=filteredTasks();
+  board.innerHTML = KANBAN_COLUMNS.map(col=>{
+    const cards=tasks.filter(t=>String(t.estado)===col).map(taskCard).join('');
+    return `<div class="col" data-status="${col}" ondragover="event.preventDefault()" ondrop="dropTask(event,'${col}')"><div class="col-head"><span class="col-title">${col}</span><span class="count">${tasks.filter(t=>String(t.estado)===col).length}</span></div>${cards||'<div class="empty">Sin tareas</div>'}</div>`;
+  }).join('');
+}
+function statusClass(status){
+  return 'status-' + String(status||'Pendiente')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/\s+/g,'-')
+    .replace(/[^a-zA-Z0-9_-]/g,'');
+}
+function taskCard(t){
+  const today = new Date(new Date().toISOString().slice(0,10));
+  const due = t.fecha_compromiso ? new Date(t.fecha_compromiso) : null;
+  const late = due && due < today && t.estado!=='Finalizada';
+  const responsables = (t.responsables||[]).map(r=>escapeHtml(r.nombre)).join(', ') || 'Sin responsables asignados';
+  return `<article class="task ${statusClass(t.estado)}" draggable="true" ondragstart="dragTask(event,'${escapeAttr(t.task_id)}')" ondragend="endDrag(event)" onclick="openTaskModal('${escapeAttr(t.task_id)}')"><h4>${escapeHtml(t.titulo)}</h4><div class="meta"><b>Asignación:</b> ${escapeHtml(t.assignment_title||'')}</div><div class="tagrow"><span class="pill cyan">${escapeHtml(t.prioridad||'Media')}</span>${late?'<span class="pill red">Atrasada</span>':''}<span class="pill beige">Dueño: ${escapeHtml(t.assignment_owner_name||'')}</span></div><div class="meta"><b>Responsables:</b> ${responsables}</div><div class="meta"><b>Fecha:</b> ${escapeHtml(t.fecha_compromiso||'-')}</div></article>`;
+}
+function dragTask(ev,id){ev.dataTransfer.setData('task_id',id); ev.currentTarget.classList.add('dragging');}
+function endDrag(ev){ev.currentTarget.classList.remove('dragging');}
+async function dropTask(ev,status){
+  const id=ev.dataTransfer.getData('task_id');
+  const task=state.tasks.find(t=>String(t.task_id)===String(id));
+  if(!task || task.estado===status) return;
+  const motivo=prompt(`Motivo del cambio de estado a "${status}"`, 'Movimiento Kanban');
+  if(motivo===null) return;
+  if(!motivo.trim()) return alert('El motivo es obligatorio para mover una tarea.');
+  setLoading(true);
+  try{ await api('moveTask',{actor_user_id:state.user.user_id,task_id:id,estado:status,motivo}); await sync(false); toast('Estado actualizado y registrado en historial.','ok'); }
+  catch(e){ toast(e.message,'bad'); }
+  finally{ setLoading(false); }
+}
+function clearFilters(){['fText','fUser','fAssignment','fPriority'].forEach(id=>document.getElementById(id).value=''); renderKanban();}
+function renderAssignments(){
+  document.getElementById('assignmentsTable').innerHTML='<tr><th>ID</th><th>Asignación</th><th>Dueño</th><th>Fecha compromiso</th><th>Estado</th><th>Prioridad</th></tr>'+state.assignments.map(a=>`<tr><td>${a.assignment_id}</td><td>${escapeHtml(a.titulo)}</td><td>${escapeHtml(userName(a.owner_user_id))}</td><td>${a.fecha_compromiso||'-'}</td><td>${a.estado}</td><td>${a.prioridad}</td></tr>`).join('');
+}
+function renderUsers(){
+  document.getElementById('usersTable').innerHTML='<tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Rol</th><th>Cargo</th><th>Estado</th></tr>'+state.users.map(u=>`<tr><td>${u.user_id}</td><td>${escapeHtml(u.nombre)}</td><td>${escapeHtml(u.correo)}</td><td>${u.rol}</td><td>${escapeHtml(u.cargo||'')}</td><td>${u.estado}</td></tr>`).join('');
+}
+async function renderHistoryTable(taskId){
+  if(taskId){ state.history = await api('getTaskHistory',{task_id:taskId}); }
+  const rows=(state.history||[]).slice(0,150);
+  document.getElementById('historyTable').innerHTML='<tr><th>Fecha</th><th>Entidad</th><th>Usuario</th><th>Acción</th><th>Campo</th><th>Antes</th><th>Después</th><th>Motivo</th></tr>'+rows.map(h=>`<tr><td>${h.fecha_hora}</td><td>${h.entity_id}</td><td>${userName(h.user_id)}</td><td>${h.accion}</td><td>${h.campo_modificado}</td><td>${escapeHtml(h.valor_anterior||'')}</td><td>${escapeHtml(h.valor_nuevo||'')}</td><td>${escapeHtml(h.motivo||'')}</td></tr>`).join('');
+}
+function showScreen(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById('screen-'+name).classList.add('active'); document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active')); if(btn)btn.classList.add('active'); setText('pageTitle', {dashboard:'Dashboard',kanban:'Kanban',assignments:'Asignaciones',history:'Historial',users:'Usuarios'}[name]||name);}
+function openTaskModal(taskId){
+  const t=state.tasks.find(x=>String(x.task_id)===String(taskId))||{}; const editing=!!taskId;
+  openModal(editing?'Editar tarea':'Nueva tarea','Las tareas pueden tener varios responsables. Si agregas a otra persona, se reflejará automáticamente en su Kanban.', `
+    <div class="grid2"><div class="field"><label>Asignación</label><select id="m_assignment">${state.assignments.map(a=>`<option value="${a.assignment_id}" ${a.assignment_id===t.assignment_id?'selected':''}>${escapeHtml(a.titulo)} · ${escapeHtml(userName(a.owner_user_id))}</option>`).join('')}</select></div><div class="field"><label>Prioridad</label><select id="m_priority"><option ${t.prioridad==='Alta'?'selected':''}>Alta</option><option ${!t.prioridad||t.prioridad==='Media'?'selected':''}>Media</option><option ${t.prioridad==='Baja'?'selected':''}>Baja</option></select></div></div>
+    <div class="field"><label>Título de tarea</label><input id="m_title" value="${escapeAttr(t.titulo||'')}"></div>
+    <div class="field"><label>Descripción / observación</label><textarea id="m_desc">${escapeHtml(t.descripcion||t.observaciones||'')}</textarea></div>
+    <div class="grid2"><div class="field"><label>Fecha compromiso</label><input id="m_due" type="date" value="${t.fecha_compromiso||''}"></div><div class="field"><label>Estado</label><select id="m_status">${KANBAN_COLUMNS.map(c=>`<option ${t.estado===c?'selected':''}>${c}</option>`).join('')}</select></div></div>
+    <div class="field"><label>Responsables de tarea</label><div class="checks">${state.users.filter(isActiveUser).map(u=>`<label class="check"><input type="checkbox" class="m_resp" value="${u.user_id}" ${(!editing&&u.user_id===state.user.user_id)||((t.responsables||[]).some(r=>r.user_id===u.user_id))?'checked':''}> ${escapeHtml(u.nombre)}</label>`).join('')}</div></div>
+    <div class="field"><label>Motivo del cambio / creación</label><input id="m_reason" placeholder="Obligatorio si cambias fecha o eliminas"></div>
+    <div class="toolbar"><button class="btn primary" onclick="saveTask('${taskId||''}')">Guardar</button>${editing?`<button class="btn danger" onclick="deleteTask('${taskId}')">Eliminar</button><button class="btn soft" onclick="loadHistory('${taskId}')">Ver historial</button>`:''}</div>`);
+}
+async function saveTask(taskId){
+  const resp=[...document.querySelectorAll('.m_resp:checked')].map(x=>x.value);
+  const payload={actor_user_id:state.user.user_id,assignment_id:val('m_assignment'),titulo:val('m_title'),descripcion:val('m_desc'),fecha_compromiso:val('m_due'),estado:val('m_status'),prioridad:val('m_priority'),responsables:resp,motivo:val('m_reason')};
+  if(!payload.assignment_id) return alert('Selecciona una asignación.');
+  if(!payload.titulo) return alert('El título de la tarea es obligatorio.');
+  if(!payload.fecha_compromiso) return alert('La fecha compromiso es obligatoria.');
+  if(!resp.length) return alert('Selecciona al menos un responsable.');
+  const oldTask = state.tasks.find(x=>String(x.task_id)===String(taskId));
+  const sensitiveChange = oldTask && (String(oldTask.fecha_compromiso||'')!==String(payload.fecha_compromiso||'') || String(oldTask.estado||'')!==String(payload.estado||''));
+  if(sensitiveChange && !payload.motivo) return alert('El motivo es obligatorio cuando cambias fecha compromiso o estado.');
+  setLoading(true);
+  try{
+    if(taskId){ await api('updateTask',{actor_user_id:state.user.user_id,task_id:taskId,patch:{titulo:payload.titulo,descripcion:payload.descripcion,fecha_compromiso:payload.fecha_compromiso,estado:payload.estado,prioridad:payload.prioridad},responsables:resp,motivo:payload.motivo}); }
+    else{ await api('createTask',payload); }
+    closeModal(); await sync(false); toast(taskId?'Tarea actualizada.':'Tarea creada.','ok');
+  }catch(e){ toast(e.message,'bad'); }
+  finally{ setLoading(false); }
+}
+async function deleteTask(id){
+  const motivo=val('m_reason')||prompt('Motivo de eliminación');
+  if(!motivo || !motivo.trim()) return alert('Motivo obligatorio.');
+  setLoading(true);
+  try{ await api('deleteTask',{actor_user_id:state.user.user_id,task_id:id,motivo}); closeModal(); await sync(false); toast('Tarea eliminada lógicamente y registrada en historial.','ok'); }
+  catch(e){ toast(e.message,'bad'); }
+  finally{ setLoading(false); }
+}
+async function loadHistory(id){await renderHistoryTable(id); showScreen('history',document.querySelector('[data-screen="history"]')); closeModal();}
+function openAssignmentModal(){
+  openModal('Nueva asignación','Una asignación solo puede tener un responsable principal.', `<div class="field"><label>Título</label><input id="a_title"></div><div class="field"><label>Descripción</label><textarea id="a_desc"></textarea></div><div class="grid2"><div class="field"><label>Dueño / responsable único</label><select id="a_owner">${state.users.filter(isActiveUser).map(u=>`<option value="${u.user_id}" ${u.user_id===state.user.user_id?'selected':''}>${escapeHtml(u.nombre)}</option>`).join('')}</select></div><div class="field"><label>Fecha compromiso</label><input type="date" id="a_due"></div></div><div class="field"><label>Prioridad</label><select id="a_priority"><option>Alta</option><option selected>Media</option><option>Baja</option></select></div><div class="toolbar"><button class="btn primary" onclick="saveAssignment()">Guardar asignación</button></div>`);
+}
+async function saveAssignment(){
+  const payload={actor_user_id:state.user.user_id,titulo:val('a_title'),descripcion:val('a_desc'),owner_user_id:val('a_owner'),fecha_compromiso:val('a_due'),prioridad:val('a_priority'),motivo:'Creación desde web'};
+  if(!payload.titulo) return alert('El título de la asignación es obligatorio.');
+  if(!payload.owner_user_id) return alert('Selecciona un dueño de asignación.');
+  if(!payload.fecha_compromiso) return alert('La fecha compromiso es obligatoria.');
+  setLoading(true);
+  try{ await api('createAssignment',payload); closeModal(); await sync(false); toast('Asignación creada.','ok'); }
+  catch(e){ toast(e.message,'bad'); }
+  finally{ setLoading(false); }
+}
+function openUserModal(){ if(!isAdmin()) return alert('Solo admin.'); openModal('Nuevo usuario','Crear usuario en Google Sheets.', `<div class="grid2"><div class="field"><label>Nombre</label><input id="u_name"></div><div class="field"><label>Correo</label><input id="u_email"></div></div><div class="grid2"><div class="field"><label>Clave demo</label><input id="u_pass" value="1234"></div><div class="field"><label>Rol</label><select id="u_role"><option>usuario</option><option>admin</option></select></div></div><div class="grid2"><div class="field"><label>Cargo</label><input id="u_cargo"></div><div class="field"><label>Área</label><input id="u_area" value="Procesos y Mejora Continua"></div></div><button class="btn primary" onclick="saveUser()">Guardar usuario</button>`);}
+async function saveUser(){
+  const payload={actor_user_id:state.user.user_id,nombre:val('u_name'),correo:val('u_email'),clave_demo:val('u_pass'),rol:val('u_role'),cargo:val('u_cargo'),area:val('u_area')};
+  if(!payload.nombre) return alert('El nombre es obligatorio.');
+  if(!payload.correo || !payload.correo.includes('@')) return alert('Ingresa un correo válido.');
+  if(!payload.clave_demo) return alert('La clave demo es obligatoria.');
+  setLoading(true);
+  try{ await api('createUser',payload); closeModal(); await sync(false); toast('Usuario creado.','ok'); }
+  catch(e){ toast(e.message,'bad'); }
+  finally{ setLoading(false); }
+}
+function openModal(title,sub,body){setText('modalTitle',title); setText('modalSub',sub); document.getElementById('modalBody').innerHTML=body; document.getElementById('modal').classList.remove('hidden');}
+function closeModal(){document.getElementById('modal').classList.add('hidden');}
+function escapeHtml(s){return String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+function escapeAttr(s){return escapeHtml(s).replace(/'/g,'&#39;');}
+window.addEventListener('load',async()=>{const uid=localStorage.getItem('sgmp_user_id'); if(uid){state.user={user_id:uid}; await sync(); document.getElementById('login').classList.add('hidden'); document.getElementById('app').classList.remove('hidden');}});
+</script>
+</body>
+</html>
